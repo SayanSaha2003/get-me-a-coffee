@@ -12,6 +12,7 @@ export default function Home() {
                         alt="Get Me a Coffee Logo"
                         width={100}
                         height={100}
+                        className="h-auto w-auto"
                     />
 
                     <h1 className="text-5xl font-bold md:text-6xl">

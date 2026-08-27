@@ -11,6 +11,7 @@ const Navbar = () => {
                     alt="Get Me a Coffee Logo"
                     width={42}
                     height={42}
+                    className="h-auto w-auto"
                 />
                 <span className="text-base font-bold text-white">
                     Get Me a Coffee!
