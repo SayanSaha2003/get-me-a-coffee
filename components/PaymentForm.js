@@ -1,6 +1,6 @@
 "use client";
 
-import { initiatePayment } from "@/actions/paymentActions";
+import { initiatePayment , savePayment } from "@/actions/paymentActions";
 import { useState } from "react";
 import Script from "next/script";
 
@@ -31,18 +31,27 @@ export default function PaymentForm({ username }) {
         // Initiate payment and get the order details from the server
         const order = await initiatePayment(username, formData);
 
-        // Open Razorpay checkout with the order details
+        // configure Razorpay payment system
         const options = {
             key: order.razorpay_id,
-            order_id: order.id,
             amount: order.amount,
             currency: "INR",
             name: "Get Me a Coffee",
-            description: "Support your favorite creator",
+            description: "Support payment",
+            order_id: order.id,
+
             handler: async function (response) {
-                console.log("Payment successful:", response);
+                try {
+                    await savePayment(username, formData, order.id);
+                    alert("Payment successful!");
+                } catch (error) {
+                    console.error(error);
+                    alert("Payment was successful, but something went wrong.");
+                }
             },
         };
+        
+        // Open Razorpay payment modal
         const razorpay = new window.Razorpay(options);
         razorpay.open();
     };

@@ -22,10 +22,6 @@ const paymentSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        isDone: {
-            type: Boolean,
-            default: false,
-        },
     },
     { timestamps: true },
 );

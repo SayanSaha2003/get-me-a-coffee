@@ -6,9 +6,11 @@ import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 import Payment from "@/models/Payment";
 
-// Get all payments for a user
+// Create a new  order and return the order details to the client
 export async function initiatePayment(username, paymentForm) {
     await connectDB();
+
+    // find the user
     const user = await User.findOne({ username });
     if (!user) {
         throw new Error("User not found");
@@ -18,25 +20,15 @@ export async function initiatePayment(username, paymentForm) {
     }
     const { name, message, amount } = paymentForm;
 
-    // Initialize Razorpay instance with user's credentials
+    // Initialize Razorpay instance and create an order
     const razorpay = new Razorpay({
         key_id: user.razorpayId,
         key_secret: user.razorpaySecret,
     });
 
-    // Create a new order
     const order = await razorpay.orders.create({
         amount: Number.parseInt(amount) * 100,
         currency: "INR",
-    });
-
-    // Store the payment details in the database
-    await Payment.create({
-        order_id: order.id,
-        amount: Number.parseInt(amount),
-        to_user: username,
-        name,
-        message,
     });
 
     // Return the order details to the client
@@ -45,4 +37,20 @@ export async function initiatePayment(username, paymentForm) {
         id: order.id,
         amount: order.amount,
     };
+}
+
+export async function savePayment(username, paymentForm, orderId) {
+    await connectDB();
+
+    const { name, message, amount } = paymentForm;
+
+    await Payment.create({
+        order_id: orderId,
+        to_user: username,
+        amount: Number.parseInt(amount),
+        name,
+        message,
+    });
+
+    return { success: true };
 }
