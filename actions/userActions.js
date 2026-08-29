@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth-server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 
+// Update user information
 export async function updateUser(formData) {
     const session = await getSession();
 
@@ -30,4 +31,17 @@ export async function updateUser(formData) {
         },
         { returnDocument: "after" },
     );
+}
+
+// Get user by username
+export async function getUserByUsername(username) {
+    await connectDB();
+
+    const user = await User.findOne({ username }).lean();
+
+    if (!user) {
+        return null;
+    }
+
+    return user;
 }

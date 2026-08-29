@@ -1,29 +1,26 @@
 import Image from "next/image";
-import { getSession } from "@/lib/auth-server";
 import { CircleUser } from "lucide-react";
 
-export default async function YourPage() {
-    const session = await getSession();
-    const user = session.user;
+import { getUserByUsername } from "@/actions/userActions";
+import PaymentForm from "@/components/PaymentForm";
+
+export default async function UserPage({ params }) {
+    const { username } = await params;
+
+    const user = await getUserByUsername(username);
+
+    if (!user) {
+        return <div>User not found</div>;
+    }
 
     const supporters = [
         { name: "Vijay", amount: "₹46666", message: "Loan ke paise hain" },
         { name: "Harry", amount: "₹45500", message: "Le lo bhia" },
         { name: "Kriti", amount: "₹566", message: "Rakh lo bhaiya" },
         { name: "Harry", amount: "₹200", message: "200 rs le lo" },
-        {
-            name: "Shubh",
-            amount: "₹122",
-            message: "bhai rakh lena toffee kha lena",
-        },
         { name: "Rohan", amount: "₹46", message: "nahi dunga" },
         { name: "Harry", amount: "₹45", message: "testing" },
         { name: "Harry", amount: "₹45", message: "sdfsdfs" },
-        {
-            name: "Hariyaa",
-            amount: "₹4",
-            message: "Thanks for providing this option",
-        },
     ];
 
     return (
@@ -31,7 +28,7 @@ export default async function YourPage() {
             {/* Cover Image */}
             <div className="h-72 w-full overflow-hidden sm:h-80">
                 <Image
-                    src="/cover.gif"
+                    src={user.cover || "/cover.gif"}
                     alt="Cover"
                     width={1920}
                     height={400}
@@ -51,12 +48,12 @@ export default async function YourPage() {
                         className="h-32 w-32 rounded-full border-4 border-[#020817] object-cover"
                     />
 
-                    <h1 className="mt-4 text-2xl font-bold">@{user.name}</h1>
-
+                    <h1 className="mt-4 text-2xl font-bold">
+                        @{user.username}
+                    </h1>
                     <p className="mt-2 text-sm text-slate-400">
-                        Lets help {user.name} get a coffee!
+                        Let&apos;s help {user.name} get a coffee!
                     </p>
-
                     <p className="mt-2 text-sm text-slate-400">
                         9 Payments · ₹93194 raised
                     </p>
@@ -92,51 +89,8 @@ export default async function YourPage() {
                         </div>
                     </div>
 
-                    {/* Payment */}
-                    <div className="rounded-lg bg-[#111827] p-6">
-                        <h2 className="text-xl font-bold">Make a Payment</h2>
-
-                        <form className="mt-6 flex flex-col gap-2">
-                            <input
-                                type="text"
-                                placeholder="Enter Name"
-                                className="h-10 rounded-lg bg-slate-800 px-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-
-                            <input
-                                type="text"
-                                placeholder="Enter Message"
-                                className="h-10 rounded-lg bg-slate-800 px-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-
-                            <input
-                                type="number"
-                                placeholder="Enter Amount"
-                                className="h-10 rounded-lg bg-slate-800 px-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-
-                            <button
-                                type="submit"
-                                className="mt-1 h-10 cursor-pointer rounded-lg bg-linear-to-r from-purple-300 to-slate-400 text-sm font-semibold text-white transition hover:opacity-90"
-                            >
-                                Pay
-                            </button>
-                        </form>
-
-                        <div className="mt-5 flex gap-2">
-                            <button className="rounded-lg bg-slate-800 px-4 py-3 text-sm">
-                                Pay ₹10
-                            </button>
-
-                            <button className="rounded-lg bg-slate-800 px-4 py-3 text-sm">
-                                Pay ₹20
-                            </button>
-
-                            <button className="rounded-lg bg-slate-800 px-4 py-3 text-sm">
-                                Pay ₹30
-                            </button>
-                        </div>
-                    </div>
+                    {/* Payment Form */}
+                    <PaymentForm username={username} />
                 </div>
             </section>
         </main>
