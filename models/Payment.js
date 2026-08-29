@@ -14,7 +14,7 @@ const paymentSchema = new mongoose.Schema(
             required: true,
         },
         to_user: {
-            type: string,
+            type: String,
             ref: "User",
             required: true,
         },
