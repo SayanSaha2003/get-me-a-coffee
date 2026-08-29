@@ -54,3 +54,21 @@ export async function savePayment(username, paymentForm, orderId) {
 
     return { success: true };
 }
+
+
+export async function getPayments(username) {
+    await connectDB();
+
+    const payments = await Payment.find({
+        to_user: username,
+    })
+        .sort({ amount: -1 })
+        .limit(10)
+        .lean();
+
+    return payments.map((payment) => ({
+        name: payment.name,
+        amount: payment.amount,
+        message: payment.message,
+    }));
+}

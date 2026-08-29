@@ -4,6 +4,8 @@ import { CircleUser } from "lucide-react";
 import { getUserByUsername } from "@/actions/userActions";
 import PaymentForm from "@/components/PaymentForm";
 
+import { getPayments } from "@/actions/paymentActions";
+
 export default async function UserPage({ params }) {
     const { username } = await params;
 
@@ -13,15 +15,24 @@ export default async function UserPage({ params }) {
         return <div>User not found</div>;
     }
 
-    const supporters = [
-        { name: "Vijay", amount: "₹46666", message: "Loan ke paise hain" },
-        { name: "Harry", amount: "₹45500", message: "Le lo bhia" },
-        { name: "Kriti", amount: "₹566", message: "Rakh lo bhaiya" },
-        { name: "Harry", amount: "₹200", message: "200 rs le lo" },
-        { name: "Rohan", amount: "₹46", message: "nahi dunga" },
-        { name: "Harry", amount: "₹45", message: "testing" },
-        { name: "Harry", amount: "₹45", message: "sdfsdfs" },
-    ];
+    const supporters = await getPayments(username);
+
+    const totalPayments = supporters.length;
+
+    const totalRaised = supporters.reduce(
+        (total, payment) => total + payment.amount,
+        0,
+    );
+
+    // const supporters = [
+    //     { name: "Vijay", amount: "₹46666", message: "Loan ke paise hain" },
+    //     { name: "Harry", amount: "₹45500", message: "Le lo bhia" },
+    //     { name: "Kriti", amount: "₹566", message: "Rakh lo bhaiya" },
+    //     { name: "Harry", amount: "₹200", message: "200 rs le lo" },
+    //     { name: "Rohan", amount: "₹46", message: "nahi dunga" },
+    //     { name: "Harry", amount: "₹45", message: "testing" },
+    //     { name: "Harry", amount: "₹45", message: "sdfsdfs" },
+    // ];
 
     return (
         <main className="min-h-[calc(100vh-56px)] bg-[#020817] text-white">
@@ -55,7 +66,7 @@ export default async function UserPage({ params }) {
                         Let&apos;s help {user.name} get a coffee!
                     </p>
                     <p className="mt-2 text-sm text-slate-400">
-                        9 Payments · ₹93194 raised
+                        {totalPayments} Payments · ₹{totalRaised} raised
                     </p>
                 </div>
 
@@ -66,6 +77,11 @@ export default async function UserPage({ params }) {
                         <h2 className="text-xl font-bold">Top 10 Supporters</h2>
 
                         <div className="mt-6 space-y-5">
+                            {supporters.length === 0 && (
+                                <p className="text-sm text-slate-400">
+                                    No supporters yet. Be the first to support!
+                                </p>
+                            )}
                             {supporters.map((supporter, index) => (
                                 <div
                                     key={index}
@@ -82,7 +98,8 @@ export default async function UserPage({ params }) {
                                         <span className="font-bold">
                                             {supporter.amount}
                                         </span>{" "}
-                                        with a message: {supporter.message}
+                                        with a message: &quot;
+                                        {supporter.message}&quot;{" "}
                                     </p>
                                 </div>
                             ))}
