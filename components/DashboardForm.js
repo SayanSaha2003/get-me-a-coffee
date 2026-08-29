@@ -3,11 +3,16 @@
 import { useState } from "react";
 import { Save, Eye, EyeOff } from "lucide-react";
 
+import { updateUser } from "@/actions/userActions";
+
 export default function DashboardForm({ user }) {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
-        <form className="mx-auto flex w-full flex-col gap-1.5">
+        <form
+            action={updateUser}
+            className="mx-auto flex w-full flex-col gap-1.5"
+        >
             {/* Name */}
             <label className="mt-1 text-sm font-semibold text-slate-200">
                 Name
@@ -52,6 +57,8 @@ export default function DashboardForm({ user }) {
 
             <input
                 type="url"
+                name="image"
+                defaultValue={user.image || ""}
                 placeholder="Enter profile picture URL"
                 className="mb-1 h-10 w-full rounded-lg border border-slate-600 bg-slate-700 px-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
             />
@@ -63,6 +70,8 @@ export default function DashboardForm({ user }) {
 
             <input
                 type="url"
+                name="cover"
+                defaultValue={user?.cover || ""}
                 placeholder="Enter cover picture URL"
                 className="mb-1 h-10 w-full rounded-lg border border-slate-600 bg-slate-700 px-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
             />
@@ -74,6 +83,7 @@ export default function DashboardForm({ user }) {
 
             <input
                 type="text"
+                name="razorpayId"
                 placeholder="Enter Razorpay ID"
                 className="mb-2 h-10 w-full rounded-lg border border-slate-600 bg-slate-700 px-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
             />
