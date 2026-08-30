@@ -45,6 +45,7 @@ export default function DashboardForm({ user }) {
             <input
                 type="text"
                 name="username"
+                defaultValue={user.username || ""}
                 autoComplete="username"
                 placeholder="Enter your username"
                 className="mb-1 h-10 w-full rounded-lg border border-slate-600 bg-slate-700 px-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
@@ -71,7 +72,7 @@ export default function DashboardForm({ user }) {
             <input
                 type="url"
                 name="cover"
-                defaultValue={user?.cover || ""}
+                defaultValue={user.cover || ""}
                 placeholder="Enter cover picture URL"
                 className="mb-1 h-10 w-full rounded-lg border border-slate-600 bg-slate-700 px-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
             />
@@ -84,6 +85,7 @@ export default function DashboardForm({ user }) {
             <input
                 type="text"
                 name="razorpayId"
+                defaultValue={user.razorpayId || ""}
                 placeholder="Enter Razorpay ID"
                 className="mb-2 h-10 w-full rounded-lg border border-slate-600 bg-slate-700 px-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"
             />
@@ -97,6 +99,7 @@ export default function DashboardForm({ user }) {
                 <input
                     type={showPassword ? "text" : "password"}
                     name="razorpaySecret"
+                    defaultValue={user.razorpaySecret || ""}
                     autoComplete="new-password"
                     placeholder="Enter Razorpay Secret"
                     className="mb-2 h-10 w-full rounded-lg border border-slate-600 bg-slate-700 px-3 pr-10 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/30"

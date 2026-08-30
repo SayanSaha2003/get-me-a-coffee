@@ -5,6 +5,7 @@ import Razorpay from "razorpay";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 import Payment from "@/models/Payment";
+import { revalidatePath } from "next/cache";
 
 // Create a new  order and return the order details to the client
 export async function initiatePayment(username, paymentForm) {
@@ -39,6 +40,7 @@ export async function initiatePayment(username, paymentForm) {
     };
 }
 
+// Save the payment details to the database
 export async function savePayment(username, paymentForm, orderId) {
     await connectDB();
 
@@ -52,10 +54,12 @@ export async function savePayment(username, paymentForm, orderId) {
         message,
     });
 
+    revalidatePath(`/${username}`);
+
     return { success: true };
 }
 
-
+// Get the last 10 payments received by a user
 export async function getPayments(username) {
     await connectDB();
 
