@@ -1,6 +1,6 @@
 "use client";
 
-import { initiatePayment , savePayment } from "@/actions/paymentActions";
+import { initiatePayment, savePayment } from "@/actions/paymentActions";
 import { useState } from "react";
 import Script from "next/script";
 
@@ -50,7 +50,7 @@ export default function PaymentForm({ username }) {
                 }
             },
         };
-        
+
         // Open Razorpay payment modal
         const razorpay = new window.Razorpay(options);
         razorpay.open();
@@ -104,7 +104,7 @@ export default function PaymentForm({ username }) {
                     </button>
                 </form>
 
-                <div className="mt-5 grid grid-cols-5 gap-2">
+                <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
                     {amounts.map((amt) => (
                         <button
                             key={amt}
@@ -112,9 +112,10 @@ export default function PaymentForm({ username }) {
                             onClick={() =>
                                 setFormData({ ...formData, amount: amt })
                             }
-                            className="rounded-lg bg-slate-800 px-4 py-3 text-sm"
+                            className=" flex flex-col rounded-lg bg-slate-800 px-3 py-3 text-sm text-white hover:bg-slate-700"
                         >
-                            Pay ₹{amt}
+                            <p>Pay</p>
+                            <p>₹{amt}</p>
                         </button>
                     ))}
                 </div>

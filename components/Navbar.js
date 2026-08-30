@@ -7,7 +7,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { authClient, logout } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
     const { data: session } = authClient.useSession();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -88,7 +88,7 @@ const Navbar = () => {
                                     </Link>
 
                                     <Link
-                                        href="/your-page"
+                                        href={`/${user.username}`}
                                         onClick={() => setIsDropdownOpen(false)}
                                         className="block px-4 py-2 text-sm text-white hover:bg-gray-600"
                                     >
@@ -159,7 +159,7 @@ const Navbar = () => {
                                 </Link>
 
                                 <Link
-                                    href="/your-page"
+                                    href={`/${user.username}`}
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className="text-sm text-white hover:text-gray-300"
                                 >
