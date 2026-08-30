@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Get Me a Coffee
+
+Get Me a Coffee is a full-stack crowdfunding platform that allows creators to create their own profile pages and receive financial support from their fans.
+
+## Features
+
+- Google and GitHub OAuth authentication
+- Secure user sessions with Better Auth
+- Creator dashboard for managing profile information
+- Unique username-based creator pages
+- Profile and cover picture support
+- Razorpay integration for receiving payments
+- Payment records stored in MongoDB
+- Responsive UI for desktop and mobile devices
+
+## Tech Stack
+
+- Next.js — Full-stack React framework
+- JavaScript — Programming language
+- Tailwind CSS — Styling
+- Better Auth — Authentication
+- MongoDB — Database
+- Mongoose — MongoDB ODM
+- Razorpay — Payment gateway
+- Vercel — Deployment
+
+## Project Structure
+
+- `app/` — Pages, layouts, routes and API endpoints
+- `actions/` — Server actions for users and payments
+- `components/` — Reusable UI components
+- `lib/` — Authentication and database configuration
+- `models/` — MongoDB/Mongoose models
+- `public/` — Static assets
 
 ## Getting Started
 
-First, run the development server:
+Install the dependencies:
 
-```bash
+npm install
+
+Start the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000` in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file and configure the required environment variables for:
 
-## Learn More
+- MongoDB
+- Better Auth
+- Google OAuth
+- GitHub OAuth
+- Razorpay
 
-To learn more about Next.js, take a look at the following resources:
+Keep secret keys and credentials out of the Git repository.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Authentication
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application uses Better Auth with Google and GitHub OAuth. OAuth callback URLs must be configured separately for local development and the production Vercel domain.
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application is deployed using Vercel.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For production deployment:
+
+1. Add the required environment variables in Vercel.
+2. Set `BETTER_AUTH_URL` to the production Vercel domain.
+3. Update Google and GitHub OAuth callback URLs to the production domain.
+4. Redeploy the application after changing environment variables.
+
