@@ -5,7 +5,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { getUserByEmail } from "@/actions/userActions";
-import { getSession } from "@/lib/auth-server";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -24,7 +25,10 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-    const session = await getSession();
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
 
     const user = session?.user?.email
         ? await getUserByEmail(session.user.email)
